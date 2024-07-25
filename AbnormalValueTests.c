@@ -1,24 +1,45 @@
-#include "color_pair.h"
+#include "AbnormalValueTests.h"
+#include "ColorPair.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void validateAbnormalPairNumber(int pairNumber) {
-    try {
+    if (pairNumber < 1 || pairNumber > 25) {
+        fprintf(stderr, "Argument PairNumber:%d is outside the allowed range\n", pairNumber);
+    } else {
         getColorFromPairNumber(pairNumber);
-    } catch (const std::out_of_range &ex) {
-        std::cout << ex.what() << std::endl;
     }
 }
 
 void validateAbnormalColors(ColorPair pair) {
-    try {
+    const char* majorColors[] = {"White", "Red", "Black", "Yellow", "Violet"};
+    const char* minorColors[] = {"Blue", "Orange", "Green", "Brown", "SlateGray"};
+    int majorIndex = -1;
+    int minorIndex = -1;
+
+    for (int i = 0; i < 5; i++) {
+        if (strcmp(majorColors[i], pair.majorColor) == 0) {
+            majorIndex = i;
+            break;
+        }
+    }
+    for (int i = 0; i < 5; i++) {
+        if (strcmp(minorColors[i], pair.minorColor) == 0) {
+            minorIndex = i;
+            break;
+        }
+    }
+
+    if (majorIndex == -1 || minorIndex == -1) {
+        fprintf(stderr, "Unknown Colors: Major: %s, Minor: %s\n", pair.majorColor, pair.minorColor);
+    } else {
         getPairNumberFromColor(pair);
-    } catch (const std::invalid_argument &ex) {
-        std::cout << ex.what() << std::endl;
     }
 }
 
 void runAbnormalValueTests() {
     validateAbnormalPairNumber(0);
     validateAbnormalPairNumber(26);
-    validateAbnormalColors({"Pink", "Blue"});
+    ColorPair testPair = {"Pink", "Blue"};
+    validateAbnormalColors(testPair);
 }
