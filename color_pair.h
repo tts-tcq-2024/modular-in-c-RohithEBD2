@@ -10,5 +10,6 @@ void initializeColorPairs();
 ColorPair getColorFromPairNumber(int pairNumber);
 int getPairNumberFromColor(ColorPair pair);
 void logMessage(const char* message);
+void runNormalColorMappingTests();
 
 #endif // COLORPAIR_H
