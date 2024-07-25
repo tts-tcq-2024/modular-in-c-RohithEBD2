@@ -11,5 +11,6 @@ ColorPair getColorFromPairNumber(int pairNumber);
 int getPairNumberFromColor(ColorPair pair);
 void logMessage(const char* message);
 void runNormalColorMappingTests();
+void runAbnormalValueTests();
 
 #endif // COLORPAIR_H
