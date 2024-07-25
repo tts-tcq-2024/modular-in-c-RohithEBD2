@@ -1,4 +1,4 @@
-#include "color_pair.h"
+#include "ColorPair.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
