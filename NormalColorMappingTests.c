@@ -1,6 +1,8 @@
-#include "color_pair.h"
+#include "NormalColorMappingTests.h"
+#include "ColorPair.h"
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 
 void validateColorMapping(int pairNumber, const char* expectedMajor, const char* expectedMinor) {
     ColorPair colorPair = getColorFromPairNumber(pairNumber);
