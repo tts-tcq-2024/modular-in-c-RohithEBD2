@@ -1,45 +1,57 @@
+#include "ColorPair.h"
 #include <stdio.h>
-#include "color_pair.h"
+#include <string.h>
+#include <stdlib.h>
 
-const char* MajorColorNames[] = {
-    "White", "Red", "Black", "Yellow", "Violet"
-};
+const char* majorColors[] = {"White", "Red", "Black", "Yellow", "Violet"};
+const char* minorColors[] = {"Blue", "Orange", "Green", "Brown", "SlateGray"};
+int numMajorColors = 5;
+int numMinorColors = 5;
 
-int numberOfMajorColors = sizeof(MajorColorNames) / sizeof(MajorColorNames[0]);
-
-const char* MinorColorNames[] = {
-    "Blue", "Orange", "Green", "Brown", "Slate"
-};
-
-int numberOfMinorColors = sizeof(MinorColorNames) / sizeof(MinorColorNames[0]);
-const int MAX_COLORPAIR_NAME_CHARS = 16;
-
-void ColorPairToString(const ColorPair* colorPair, char* buffer) {
-    sprintf(buffer, "%s %s",
-            MajorColorNames[colorPair->majorColor],
-            MinorColorNames[colorPair->minorColor]);
+void initializeColorPairs() {
+    // Initialization is done through static arrays, nothing needed here
 }
 
-ColorPair GetColorFromPairNumber(int pairNumber) {
-    ColorPair colorPair;
-    int zeroBasedPairNumber = pairNumber - 1;
-    colorPair.majorColor = 
-        (enum MajorColor)(zeroBasedPairNumber / numberOfMinorColors);
-    colorPair.minorColor =
-        (enum MinorColor)(zeroBasedPairNumber % numberOfMinorColors);
-    return colorPair;
-}
-
-int GetPairNumberFromColor(const ColorPair* colorPair) {
-    return colorPair->majorColor * numberOfMinorColors +
-            colorPair->minorColor + 1;
-}
-
-void printColorCodingManual() {
-    for (int pairNumber = 1; pairNumber <= numberOfMajorColors * numberOfMinorColors; ++pairNumber) {
-        ColorPair colorPair = GetColorFromPairNumber(pairNumber);
-        char colorPairNames[MAX_COLORPAIR_NAME_CHARS];
-        ColorPairToString(&colorPair, colorPairNames);
-        printf("%d\t%s\n", pairNumber, colorPairNames);
+ColorPair getColorFromPairNumber(int pairNumber) {
+    if (pairNumber < 1 || pairNumber > numMajorColors * numMinorColors) {
+        fprintf(stderr, "Argument PairNumber:%d is outside the allowed range\n", pairNumber);
+        exit(EXIT_FAILURE);
     }
+    
+    int zeroBasedPairNumber = pairNumber - 1;
+    int majorIndex = zeroBasedPairNumber / numMinorColors;
+    int minorIndex = zeroBasedPairNumber % numMinorColors;
+
+    ColorPair pair = {majorColors[majorIndex], minorColors[minorIndex]};
+    return pair;
+}
+
+int getPairNumberFromColor(ColorPair pair) {
+    int majorIndex = -1;
+    int minorIndex = -1;
+
+    for (int i = 0; i < numMajorColors; i++) {
+        if (strcmp(majorColors[i], pair.majorColor) == 0) {
+            majorIndex = i;
+            break;
+        }
+    }
+    
+    for (int i = 0; i < numMinorColors; i++) {
+        if (strcmp(minorColors[i], pair.minorColor) == 0) {
+            minorIndex = i;
+            break;
+        }
+    }
+    
+    if (majorIndex == -1 || minorIndex == -1) {
+        fprintf(stderr, "Unknown Colors: Major: %s, Minor: %s\n", pair.majorColor, pair.minorColor);
+        exit(EXIT_FAILURE);
+    }
+
+    return (majorIndex * numMinorColors) + (minorIndex + 1);
+}
+
+void logMessage(const char* message) {
+    printf("%s\n", message);
 }
