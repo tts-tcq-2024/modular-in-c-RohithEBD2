@@ -1,0 +1,6 @@
+#ifndef NORMALCOLORMAPPINGTESTS_H
+#define NORMALCOLORMAPPINGTESTS_H
+
+void runNormalColorMappingTests();
+
+#endif // NORMALCOLORMAPPINGTESTS_H
